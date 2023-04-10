@@ -12,7 +12,7 @@ export default async function handler(
 
     const { postId } = req.query;
 
-    const postString = postId.toString();
+    const postString = postId?.toString();
 
     // if (typeof postId !== 'string') {
     //   throw new Error('Invalid Id');
