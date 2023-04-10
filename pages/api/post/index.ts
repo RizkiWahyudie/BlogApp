@@ -10,6 +10,9 @@ export default async function handler(
   }
   try {
     const post = await prisma.post.findMany({
+      where: {
+        published: true,
+      },
       select: {
         id: true,
         title: true,

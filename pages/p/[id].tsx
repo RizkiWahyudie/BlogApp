@@ -16,6 +16,13 @@ async function publishPost(id: string): Promise<void> {
   await Router.push("/");
 }
 
+async function deletePost(id: string): Promise<void> {
+  await fetch(`/api/delete/${id}`, {
+    method: "DELETE",
+  });
+  Router.push("/");
+}
+
 const Post: React.FC<PostProps> = () => {
   const { data: session, status } = useSession();
   const route = useRouter();
@@ -26,8 +33,8 @@ const Post: React.FC<PostProps> = () => {
   }
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === data?.author?.email;
-  let title = data.title;
-  if (!data.published) {
+  let title = data?.title;
+  if (!data?.published) {
     title = `${title} (Draft)`;
   }
 
@@ -37,8 +44,11 @@ const Post: React.FC<PostProps> = () => {
         <h2>{title}</h2>
         <p>By {data?.author?.name || "Unknown author"}</p>
         <ReactMarkdown children={data?.content} />
-        {!data.published && userHasValidSession && postBelongsToUser && (
-          <button onClick={() => publishPost(data.id)}>Publish</button>
+        {!data?.published && userHasValidSession && postBelongsToUser && (
+          <button onClick={() => publishPost(data?.id)}>Publish</button>
+        )}
+        {userHasValidSession && postBelongsToUser && (
+          <button onClick={() => deletePost(data?.id)}>Delete</button>
         )}
       </div>
       <style jsx>{`
