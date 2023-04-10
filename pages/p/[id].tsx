@@ -25,7 +25,7 @@ const Post: React.FC<PostProps> = () => {
     return <div>Authenticating ...</div>;
   }
   const userHasValidSession = Boolean(session);
-  const postBelongsToUser = session?.user?.email === data.author?.email;
+  const postBelongsToUser = session?.user?.email === data?.author?.email;
   let title = data.title;
   if (!data.published) {
     title = `${title} (Draft)`;
